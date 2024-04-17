@@ -11,6 +11,19 @@ export class StudentsRepository {
     return this.students.find((student) => student.id === id);
   }
 
+  async getStudentByEmail(email) {
+    try {
+      const student = await this.db.oneOrNone(
+        "SELECT * FROM students WHERE email = $1",
+        email
+      );
+      return student;
+    } catch (error) {
+      console.error(`Failed to get Student by email ${email}:`, error);
+      throw error;
+    }
+  }
+
   addStudent(student) {
     this.students.push(student);
   }
